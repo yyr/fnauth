@@ -5,17 +5,28 @@ import re
 USERNAME = "testuser"
 PASSWORD = "testuser"
 
-URLS = ["http://www.tropmet.res.in", "http://google.com"]
 
-URL = URLS[0]
-
+debug = False
 info = dict(username=USERNAME, password=PASSWORD)
 
-reqobj = requests.get(URL)
-url = str(reqobj.url)
+URLS = ["http://www.tropmet.res.in", "http://google.com"]
+for URL in URLS:
+    reqobj = requests.get(URL)
+    url = str(reqobj.url)
 
-if "fgtauth" in url:
+    if debug:
+        print("requested: " + URL)
+
+    # Start authentication.
+    if "fgtauth" in url:
+        if debug:
+            print("requested: " + URL)
         magic = re.search('http.*\?', url).group()
         magic = url.replace(magic, "")
         info["magic"] = magic
         r = requests.post(url, data=info)
+        # print(r.text)
+
+    else:
+        if debug:
+            print("Seems already authenticated")
