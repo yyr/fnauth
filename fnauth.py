@@ -19,8 +19,6 @@ for URL in URLS:
 
     # Start authentication.
     if "fgtauth" in url:
-        if debug:
-            print("requested: " + URL)
         magic = re.search('http.*\?', url).group()
         magic = url.replace(magic, "")
         info["magic"] = magic
